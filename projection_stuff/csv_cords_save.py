@@ -1,13 +1,14 @@
 import cv2
 import numpy as np
 import csv
-
 def load_csv_data(csv_file):
     data = []
     with open(csv_file, 'r') as file:
         reader = csv.reader(file)
         next(reader)  # Skip header
         for row in reader:
+            # Print each row to check if it's correctly parsed
+            print(row)
             data.append({
                 'img': row[0],
                 'coords': [int(coord) for coord in row[1:]]
@@ -15,8 +16,9 @@ def load_csv_data(csv_file):
     return data
 
 # Load CSV data
-csv_file = '/home/hestabit/PROJECTS/image-stuff/projection_stuff/Img_coordinates.csv'  # Update with your CSV file path
+csv_file = '/home/hestabit/PROJECTS/image-stuff/projection_stuff/ball_box_cords.csv'  # Update with your CSV file path
 image_data = load_csv_data(csv_file)
+
 
 Camera_matrix = [[2.05712194e+03, 0.00000000e+00, 3.00991431e+02],
                  [0.00000000e+00, 1.94815701e+03, 1.59432241e+02],
@@ -28,7 +30,7 @@ Distortion_coeff = [[1.43317465e+00, -4.10515995e+01, -4.62217722e-02, -7.131753
 camera_matrix = np.array(Camera_matrix)
 dist_coeffs = np.array(Distortion_coeff)
 
-output_file = 'camera_coordinates2.csv'  # Output CSV file path
+output_file = 'camera_coordinates3.csv'  # Output CSV file path
 with open(output_file, 'w', newline='') as csvfile:
     writer = csv.writer(csvfile)
     writer.writerow(['Image', 'Box_Corners_Camera_Coordinates'])  # Write header

@@ -1,24 +1,34 @@
 import csv
 import ast
 
-def calculate_center(box_corners):
-    x_values = [point[0] for point in box_corners]
-    y_values = [point[1] for point in box_corners]
-    z_values = [point[2] for point in box_corners]
-    center_x = sum(x_values) / len(x_values)
-    center_y = sum(y_values) / len(y_values)
-    center_z = sum(z_values) / len(z_values)
+def calculate_center_point(box_corners):
+    x_sum = 0
+    y_sum = 0
+    z_sum = 0
+
+    for corner in box_corners:
+        x_sum += corner[0]
+        y_sum += corner[1]
+        z_sum += corner[2]
+
+    num_corners = len(box_corners)
+    center_x = x_sum / num_corners
+    center_y = y_sum / num_corners
+    center_z = z_sum / num_corners
+
     return center_x, center_y, center_z
 
 def main():
-    with open('/home/hestabit/PROJECTS/image-stuff/projection_stuff/pose_estimation_results.csv', newline='') as csvfile:
-        reader = csv.DictReader(csvfile)
-        for row in reader:
+    with open('/home/hestabit/PROJECTS/image-stuff/projection_stuff/camera_coordinates3.csv', 'r') as csv_file:
+        csv_reader = csv.DictReader(csv_file)
+        
+        for row in csv_reader:
             image = row['Image']
             box_corners_str = row['Box_Corners_Camera_Coordinates']
             box_corners = ast.literal_eval(box_corners_str)
-            center_x, center_y, center_z = calculate_center(box_corners)
-            print(f"Image {image} center: ({center_x}, {center_y}, {center_z})")
+            
+            center_point = calculate_center_point(box_corners)
+            print(f"{center_point}")
 
 if __name__ == "__main__":
     main()

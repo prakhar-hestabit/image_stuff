@@ -20,7 +20,7 @@ imgpoints = []  # 2d points in image plane
 
 # Load calibration images
 # images = glob.glob('calibration_images/*.jpg')  # Path to your calibration images
-images = glob.glob('/home/hestabit/PROJECTS/image-stuff/chessboard.png')
+images = glob.glob('/home/hestabit/PROJECTS/image-stuff/*.png')
 
 for fname in images:
     img = cv2.imread(fname)

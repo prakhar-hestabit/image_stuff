@@ -68,7 +68,7 @@ def read_csv(csv_file):
             add_box(coordinates)
 
 # Read CSV data
-csv_file = '/home/hestabit/PROJECTS/image-stuff/projection_stuff/camera_coordinates2.csv'  # Update with your CSV file path
+csv_file = '/home/hestabit/PROJECTS/image-stuff/projection_stuff/camera_coordinates3.csv'  # Update with your CSV file path
 data = read_csv(csv_file)
 
 # Keep the plot open until 'q' is pressed

@@ -19,8 +19,8 @@ objpoints = []  # 3d points in real world space
 imgpoints = []  # 2d points in image plane
 
 # Initialize video capture
-vid_ip = "http://10.10.1.253:4747/video"
-cap = cv2.VideoCapture(vid_ip)
+vid_dev = 0 #"http://192.168.129.243:4747/video"
+cap = cv2.VideoCapture(vid_dev)
 
 while True:
     ret, frame = cap.read()
