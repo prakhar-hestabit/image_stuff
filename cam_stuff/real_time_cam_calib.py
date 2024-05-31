@@ -19,7 +19,7 @@ objpoints = []  # 3d points in real world space
 imgpoints = []  # 2d points in image plane
 
 # Initialize video capture
-vid_dev = 0 #"http://192.168.129.243:4747/video"
+vid_dev ="http://10.10.1.232:4747/video"
 cap = cv2.VideoCapture(vid_dev)
 
 while True:
