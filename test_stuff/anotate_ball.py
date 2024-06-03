@@ -1,35 +1,36 @@
-import cv2
 import supervision as sv
 from ultralytics import YOLO
+import numpy as np
+import logging
 
-model = YOLO("yolov8n.pt")
-image = cv2.imread("/home/hestabit/PROJECTS/image-stuff/test_stuff/f_ball.jpg")
-results = model(image)[0]
-detections = sv.Detections.from_ultralytics(results)
-detections = detections[detections.class_id == 0]
+logging.basicConfig(level = logging.DEBUG,
+                    format = '%(message)s',
+                    handlers = [
+                        logging.FileHandler("cords_xyxy.log"),  # Log to a file
+                    ])
 
-# Annotator
-ellipse_annotator = sv.EllipseAnnotator(thickness = 10, color = sv.Color.RED)
-triangle_annotator = sv.TriangleAnnotator(base = 50, height = 50, color=sv.Color.RED)
-annotated_frame = triangle_annotator.annotate(
-    scene=image.copy(),
-    detections=detections
-)
+
+model = YOLO("/home/hestabit/PROJECTS/image-stuff/test_stuff/2best.pt")
+tracker = sv.ByteTrack()
+
+bounding_box_annotator = sv.BoundingBoxAnnotator()
 label_annotator = sv.LabelAnnotator()
-labels = [
-    model.model.names[class_id]
-    for class_id
-    in detections.class_id
-]
-annotated_image = triangle_annotator.annotate(
-    scene=image, detections=detections)
-annotated_image2 = ellipse_annotator.annotate(
-    scene=annotated_image, detections=detections)
 
-annotated_image = label_annotator.annotate(
-    scene=annotated_image, detections=detections, labels=labels)
-annotated_image2 = label_annotator.annotate(
-    scene=annotated_image, detections=detections, labels=labels)
+def callback(frame: np.ndarray, index: int) -> np.ndarray:
+    results = model(frame)[0]
+    detections = sv.Detections.from_ultralytics(results)
+    detections = tracker.update_with_detections(detections)
 
-sv.plot_image(annotated_image)
-# sv.plot_image(annotated_image2)
+    labels = [f"#{tracker_id}" for tracker_id in detections.tracker_id]
+    logging.info(f"{detections.xyxy}")
+    annotated_frame = bounding_box_annotator.annotate(
+        scene=frame.copy(), detections=detections)
+    annotated_frame = label_annotator.annotate(
+        scene=annotated_frame, detections=detections, labels=labels)
+    return annotated_frame
+
+sv.process_video(
+    source_path="/home/hestabit/PROJECTS/image-stuff/test_stuff/recorded_video_0.avi",
+    target_path="/home/hestabit/PROJECTS/image-stuff/test_stuff/track_result_3.mp4",
+    callback=callback
+)

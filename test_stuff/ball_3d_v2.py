@@ -16,7 +16,7 @@ dist_coeffs = np.array([[5.17214751e-01, -1.31074218e+02, -1.62111916e-02, 2.507
 known_diameter = 0.2
 
 # Load the CSV file
-csv_file = '/home/hestabit/PROJECTS/image-stuff/point_projection/click_info.csv'  # replace with the actual path to your CSV file
+csv_file = '/home/hestabit/PROJECTS/image-stuff/test_stuff/xyr_csv.csv'  # replace with the actual path to your CSV file
 data = pd.read_csv(csv_file)
 
 

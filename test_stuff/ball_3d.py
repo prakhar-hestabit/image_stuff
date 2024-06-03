@@ -4,16 +4,19 @@ import cv2
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
 
-Camera_matrix = [[4.62927925e+03, 0.00000000e+00, 2.48378341e+02],
- [0.00000000e+00, 4.39332184e+03, 1.67522215e+02],
- [0.00000000e+00, 0.00000000e+00, 1.00000000e+00],]
-Distortion_coeff = [[5.17214751e-01, -1.31074218e+02, -1.62111916e-02,  2.50774333e-02, -1.09878530e+00]]
+Camera_matrix =  [
+[632.49137451 , 0.0          , 269.67868864],
+[0.0          , 772.08073975 , 226.88820028],
+[0.0          , 0.0          , 1.0        ],
+ ]
+Distortion_coeff =  [[ 4.44754911e+00, -3.87265190e+01,  1.30128997e-01, -2.94102986e-01,
+   1.96878836e+02]]
 
 # Define the camera matrix and distortion coefficients (replace with actual values)
-fx = 4.62927925e+03  # example value, replace with actual value
-fy = 4.39332184e+03  # example value, replace with actual value
-cx = 2.48378341e+02   # example value, replace with actual value
-cy = 1.67522215e+02  # example value, replace with actual value
+fx = Camera_matrix[0][0]  # example value, replace with actual value
+fy = Camera_matrix[1][1]  # example value, replace with actual value
+cx = Camera_matrix[0][2]   # example value, replace with actual value
+cy = Camera_matrix[1][2]  # example value, replace with actual value
 
 camera_matrix = np.array(Camera_matrix)
 
@@ -23,7 +26,7 @@ dist_coeffs = np.array(Distortion_coeff)
 known_diameter = 0.0726
 
 # Load the CSV file
-csv_file = '/home/hestabit/PROJECTS/image-stuff/point_projection/click_info.csv'  # replace with the actual path to your CSV file
+csv_file = '/home/hestabit/PROJECTS/image-stuff/test_stuff/xyr_csv.csv'  # replace with the actual path to your CSV file
 data = pd.read_csv(csv_file)
 
 
@@ -76,3 +79,4 @@ ax.set_zlabel('Z')
 ax.set_title('3D Path of the Ball')
 
 plt.show()
+print(path_3d)
